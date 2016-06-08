@@ -1,0 +1,202 @@
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+!
+! fs_sqbox1_2016
+!
+! Same as fs_sqbox1_visc1 but testing out various things in the new
+!  version of mfix 2016-1
+!
+! Distributed velocity of 1 cm/s
+! 
+! 5 second run 
+! 
+! Simulation took ### hours to run on Matthes
+!
+! Run started on April 14, 2016
+!
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! Run control section
+
+ run_name		= 'fs_sqbox1_2016'
+ description		= 'Square packed bed of particles'
+ run_type		= 'new'
+! run_type		= 'restart_1'
+ units			= 'cgs'
+ time			= 0.0
+ tstop 			= 5.0
+ dt			= 1E-6
+ dt_max			= 1E-4
+ auto_restart           = .true.
+
+
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! Equations (fluid solver only solving fluid momentum)
+
+ energy_eq		= .false.
+ species_eq(0:1)	= .false. .false.
+ momentum_x_eq(1)	= .false.
+ momentum_y_eq(1)	= .false.
+ momentum_z_eq(1)	= .false.	
+
+
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! Misc. Parameters
+
+ drag_type		= 'gidaspow'
+ gravity		= 980
+ max_nit		= 500
+ tol_resid		= 1.0E-3
+ ur_fac(1)		= 0.5
+ leq_it(1)		= 9*30
+ tol_diverge		= 1.0E+08
+ max_inlet_vel_fac      = 1.0E+06
+ norm_g                 = 0
+ discretize             = 9*2
+
+ ! Including scalar calculation
+ nscalar                = 1
+ phase4scalar(1)        = 0
+ ur_fac(9)              = 1.0
+
+
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! Geometry Section
+
+ coordinates		= 'cartesian'
+ xlength		= 32.0
+ imax			= 32
+ ylength		= 64.0
+ jmax			= 64
+ no_k			= .true.
+ dz(1)			= 0.4d0
+
+
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! Fluid and Solid Phases 
+
+ mu_g0			= 1.0
+ ro_g0			= 2.65
+
+ mmax                   = 1
+ solids_model(1)        = 'DEM'
+ ro_s0(1)		= 3.3
+ d_p0(1)		= 0.4
+
+
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! Initial condition section
+
+ ic_x_w(1)		= 0.0
+ ic_x_e(1)		= 32.0
+ ic_y_s(1)		= 0.0
+ ic_y_n(1)		= 64.0
+
+ ic_ep_g(1)		= 1.0
+ ic_u_g(1)		= 0.0
+ ic_v_g(1)		= 0.0
+
+ ic_u_s(1,1)		= 0.0
+ ic_v_s(1,1)		= 0.0
+
+ ic_scalar 		= 0.0  
+
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! Boundary conditions
+
+! 1. Distributed flow along the base
+ bc_x_w(1)		= 0.0
+ bc_x_e(1)		= 32.0
+ bc_y_s(1)		= 0.0
+ bc_y_n(1)		= 0.0
+ bc_type(1)		= 'mi'
+
+ bc_ep_g(1)		= 1.0
+ bc_u_g(1)		= 0.0
+ bc_v_g(1)		= 1.0
+ bc_p_g(1)		= 1.179E+6	! Includes static pressure
+
+ bc_scalar(1,1)		= 1.0
+
+! 2. Outlet
+
+ bc_x_w(2)		= 0.0
+ bc_x_e(2)		= 32.0
+ bc_y_s(2)		= 64.0
+ bc_y_n(2)		= 64.0
+ bc_type(2)		= 'po'
+ bc_p_g(2)		= 1.013E+6	! Atm. pressure
+
+ bc_scalar(2,1)		= 0.0
+
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! DES input parameters
+
+ des_interp_scheme      = 'GARG_2012'
+ des_interp_on		= .true.
+ des_interp_mean_fields = .true.
+ des_intg_method        = 'Adams_Bashforth'
+
+ nfactor		= 0		! Particles already settled
+ particles 		= 6111
+
+ kn			= 1.0D+8
+ kt_fac			= @(2/7)
+ mew			= 0.1
+ kn_w			= 1.0D+8
+ kt_w_fac		= @(2/7)
+ mew_w			= 0.1
+ des_en_input		= 0.1
+ des_en_wall_input	= 0.1
+ des_etat_fac		= @(1/2)
+ des_etat_w_fac		= @(1/2)
+
+ des_neighbor_search	= 4
+ neighbor_search_n	= 25
+ print_des_data		= .true.
+
+
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! Output control
+
+ ! Fluid output info
+  out_dt		= 100		! Output file every 0.1s
+  res_dt		= 0.1
+  nlog			= 25		! Write .log file every 25 ts
+  full_log		= .true.
+ 
+ ! Interval for .spx file updates
+  spx_dt(1)             = 0.125 ! Void fraction (EP_g)
+  spx_dt(2)             = 100 ! Gas & solid pressure (P_g P_star)
+  spx_dt(3)             = 0.125 ! Gas velocities (U_g V_g W_g)
+  spx_dt(4)             = 0.125 ! Solids velocities (U_s V_s W_s)
+  spx_dt(5)             = 100   ! Solids density (ROP_s)
+  spx_dt(6)             = 100   ! Gas & solid temperatures (T_g T_s)
+  spx_dt(7)             = 100   ! Gas & solid mass fraction (X_g X_s)
+  spx_dt(8)             = 100   ! Granular temperature (Theta)
+  spx_dt(9)             = 0.125 ! User defined scalars
+
+ ! Writing fluid output as vtk files
+ write_vtk_files        = .true.
+ vtk_dt(1)              = 0.125
+ vtk_dt(3)              = 0.125
+ vtk_dt(9)              = 0.125
+ 
+ vtk_ep_g               = .true.
+ vtk_vel_g              = .true.
+ vtk_scalar             = .true.
+
+
+ enable_dmp_log         = .false.
+
+ ! Parallelization
+ nodesi 		= 4
+! nodesi			= 1
+ nodesj			= 1
+ nodesk			= 1
+
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! End.
+
+
