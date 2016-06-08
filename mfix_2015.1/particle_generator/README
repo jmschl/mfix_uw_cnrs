@@ -1,0 +1,4 @@
+The particle generation files in the mfix tools folder generally
+have trouble working due to line continuation character errors.
+The files in this directory have been tested using both 2015.1
+and 2016.1 and work.  
