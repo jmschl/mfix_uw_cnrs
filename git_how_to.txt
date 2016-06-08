@@ -1,0 +1,77 @@
+To start off, make sure you have git installed on your computer. If
+not, you can get instructions here.
+
+To get access to the repository, sign up with Github and you can
+search for my username (jmschl). I've created the repository
+mfix_uw_cnrs which is where all of our code lives. Once you've
+signed up, open a terminal on your computer and navigate to a
+location you want to save the repository. This is the directory
+you will make edits in, and then you can upload or "push" them
+to the main repository so everyone has access. Once in this
+directory, go back to the github page and click the green button
+that says "Clone or Download" and copy the https link in the
+box. In your terminal, in the directory you want to save the
+repository, type:
+
+>> git clone **paste https link here**
+
+This will bring all of the directories and files to your local
+repository. Now you can start editing the files!
+
+When you have made changes to files, you first save them locally
+to your computer. This is done by "committing" the changes.
+There are really only about 5 main commands you need to use
+regularly when using git:
+
+>> git status
+>> git add **file name that has been edited**
+>> git commit -m " **text you want to include that will be added to
+the changes you made in the files** "
+>> git push
+>> git pull
+
+git status: 
+This just allows you to see what changes have been made in the
+different files since the last commit. Think of committing as
+like File+Save, but an additional save for git. Files in red
+have not been added, files in green have been added and are
+ready to be committed.
+
+git add **file name that has been edited** 
+This adds files that have been modified, and sets them up to be
+included in the next commit.
+
+git commit -m " **text you want to include that will be added to
+the changes you made in the files** "
+This actually commits all of the saved files you've added. The
+text in the quotes is the accompanying text that will be
+included and visible to anyone looking at the repository. You
+can be very detailed here, specifying what changes you've made,
+or what you're working on. 
+
+git push
+This is how everyone else gets to see the changes you've been
+working on. All changes that have been committed (note, you can
+commit multiple times between pushing to the online repository)
+will be uploaded to the github page. You can check out all
+commits that everyone has pushed to the repository on the
+mfix_uw_cnrs page, and it says "## commits," where ## just
+corresponds to the number of commits that have been made to the
+repository. Clicking on an individual commit will show you all
+of the lines that have been added/removed/modified in any file
+that was added to the commit.
+
+git pull
+This allows you to access changes that other people have made to
+the files and have pushed to the repository. It will update all
+the files that have been modified by other people in your local
+computer repository.
+
+There are tons more things that git is useful for (you can
+create test branches that won't save to the main file
+immediately, you can go back in time to previous commits) and
+there's a lot of documentation on the web. As I said before, it
+takes a little bit of time to get used to, but it's second
+nature after a while. One last note: git works for any ASCII
+file, but if you upload a binary file, it won't be able to track
+the line-by-line changes as a text file would.
