@@ -35,7 +35,9 @@ This just allows you to see what changes have been made in the
 different files since the last commit. Think of committing as
 like File+Save, but an additional save for git. Files in red
 have not been added, files in green have been added and are
-ready to be committed.
+ready to be committed. This also tells you if you have commits
+on your local machine that still need to be pushed to the online
+repository.
 
 git add **file name that has been edited** 
 This adds files that have been modified, and sets them up to be
