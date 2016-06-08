@@ -67,7 +67,9 @@ git pull
 This allows you to access changes that other people have made to
 the files and have pushed to the repository. It will update all
 the files that have been modified by other people in your local
-computer repository.
+computer repository. It's a good idea to pull before you begin
+editing files to get changes others have made, and to check the
+github repository to see what these changes are. 
 
 There are tons more things that git is useful for (you can
 create test branches that won't save to the main file
