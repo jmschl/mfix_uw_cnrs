@@ -1,5 +1,5 @@
 # mfix_uw_cnrs
-Shared folder between Alain, George, Jill, and Zack to keep
+Shared folder between Alain, Alex, George, Jill, and Zack to keep
 files for our work on mfix.
 
 The initial directory is broken up into mfix versions 2015.1 and
